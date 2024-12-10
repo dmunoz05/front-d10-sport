@@ -8,6 +8,7 @@ import './news.css';
 
 export default function News() {
   const urlApi = import.meta.env.VITE_API_URL;
+  const apiKey = import.meta.env.VITE_API_KEY;
 
   const [months, setMonths] = useState([]);
   const [newsData, setNewsData] = useState([]);
@@ -24,7 +25,6 @@ export default function News() {
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
 
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -34,10 +34,14 @@ export default function News() {
     setSelectedMonth(currentMonth);
   }, [currentYear, currentMonth]);
 
-
   function getNews() {
     axios
-      .get(`${urlApi}landing/g/news`)
+      .get(`${urlApi}landing/g/news`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+      })
       .then((response) => {
         const { news, months } = response.data[0].section_one;
 
@@ -115,7 +119,6 @@ export default function News() {
 
       <SplineModel />
 
-
       <div className="container__news">
         <main className="news">
           <section className="section__news">
@@ -144,8 +147,9 @@ export default function News() {
                 <button
                   key={i + 1}
                   onClick={() => handlePageChange(i + 1)}
-                  className={`page-button ${currentPage === i + 1 ? "active" : ""
-                    }`}
+                  className={`page-button ${
+                    currentPage === i + 1 ? "active" : ""
+                  }`}
                 >
                   {i + 1}
                 </button>
@@ -161,8 +165,9 @@ export default function News() {
                   {year}
                 </div>
                 <ul
-                  className={`months__list ${expandedYear === year ? "expand" : ""
-                    }`}
+                  className={`months__list ${
+                    expandedYear === year ? "expand" : ""
+                  }`}
                 >
                   {expandedYear === year &&
                     months.map((month, index) => (

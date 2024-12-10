@@ -10,6 +10,7 @@ import './services.css'
 
 export default function Services() {
   const urlApi = import.meta.env.VITE_API_URL;
+  const apiKey = import.meta.env.VITE_API_KEY;
 
   const [sectionOne, setSectionOne] = useState({
     title: "",
@@ -38,7 +39,12 @@ export default function Services() {
 
   function getNews() {
     axios
-      .get(`${urlApi}landing/g/services`)
+      .get(`${urlApi}landing/g/services`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+      })
       .then((response) => {
         setSectionOne(response.data[0].section_one);
         setSectionTwo(response.data[0].section_two);

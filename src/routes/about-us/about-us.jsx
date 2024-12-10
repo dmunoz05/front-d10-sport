@@ -42,10 +42,16 @@ export default function AboutUs() {
   });
 
   const urlApi = import.meta.env.VITE_API_URL;
+  const apiKey = import.meta.env.VITE_API_KEY;
 
   function getNews() {
     axios
-      .get(`${urlApi}landing/g/aboutus`)
+      .get(`${urlApi}landing/g/aboutus`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+      })
       .then((response) => {
         setSectionOne(response.data[0].section_one);
         setSectionTwo(response.data[0].section_two);

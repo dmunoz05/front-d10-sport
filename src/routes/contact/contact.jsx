@@ -9,6 +9,7 @@ import './contact.css'
 
 export default function Contact() {
   const urlApi = import.meta.env.VITE_API_URL;
+  const apiKey = import.meta.env.VITE_API_KEY;
 
   const [sectionOne, setSectionOne] = useState({
     title: "",
@@ -18,7 +19,12 @@ export default function Contact() {
 
   function getNews() {
     axios
-      .get(`${urlApi}landing/g/contact`)
+      .get(`${urlApi}landing/g/contact`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+      })
       .then((response) => {
         setSectionOne(response.data[0].section_one);
       })
